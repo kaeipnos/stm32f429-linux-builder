@@ -160,11 +160,18 @@
  * Serial console configuration
  */
 #define CONFIG_STM32_USART_CONSOLE
-#define CONFIG_STM32_USART_PORT			3	/* USART3 */
-#define CONFIG_STM32_USART_TX_IO_PORT	2	/* PORTC */
-#define CONFIG_STM32_USART_RX_IO_PORT	2	/* PORTC */
-#define CONFIG_STM32_USART_TX_IO_PIN	10	/* GPIO10 */
-#define CONFIG_STM32_USART_RX_IO_PIN	11	/* GPIO11 */
+#define CONFIG_STM32_USART_PORT         1  // USART1
+#define CONFIG_STM32_USART_TX_IO_PORT   0  // PORTA
+#define CONFIG_STM32_USART_RX_IO_PORT   0  // PORTA
+#define CONFIG_STM32_USART_TX_IO_PIN    10 // GPIO10
+#define CONFIG_STM32_USART_RX_IO_PIN    9  // GPIO9
+/*
+#define CONFIG_STM32_USART_PORT			3	// USART3 
+#define CONFIG_STM32_USART_TX_IO_PORT	2	// PORTC 
+#define CONFIG_STM32_USART_RX_IO_PORT	2	// PORTC 
+#define CONFIG_STM32_USART_TX_IO_PIN	10	// GPIO10 
+#define CONFIG_STM32_USART_RX_IO_PIN	11	// GPIO11 
+*/
 
 #define CONFIG_BAUDRATE					115200
 #define CONFIG_SYS_BAUDRATE_TABLE		{ 9600, 19200, 38400, 57600, 115200 }
@@ -246,10 +253,10 @@
 /*
  * Auto-boot sequence configuration
  */
-#define CONFIG_BOOTDELAY		0
+#define CONFIG_BOOTDELAY		5
 #define CONFIG_HOSTNAME			stm32429-disco
 #define CONFIG_BOOTARGS			"stm32_platform=stm32429-disco mem=7M "\
-								"console=ttyS2,115200n8 consoleblank=0 "\
+								"console=ttyS1,115200n8 consoleblank=0 "\
 								"root=/dev/mtdblock0 rdinit=/sbin/init "\
 								"video=vfb:enable,fbmem:0x90700000,fbsize:0x100000"
 #define CONFIG_BOOTCOMMAND		"run flashboot"

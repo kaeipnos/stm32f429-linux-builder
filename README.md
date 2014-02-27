@@ -12,9 +12,12 @@ The goal is to integrate Robutest source stuff :
 
 in one place to play with, adding stuff, change default configuration...
 
-Note : OpenOCD 0.7.0 (and the 0.7.0-2 from Debian) can't write romfs to 
-flash because of a post-0.7.0-stable bug (bad flash detection on 
-stm32f429). You need to use 0.8.0 development version.
+Major change from jserv and Robutest/tmk version :
+
+* add 5s bootdelay to U-Boot 
+* switch from ``ttyS2`` to ``ttyS0`` (uboot & uClinux & login)
+* add missing ``/sys`` in rootfs, and
+* change ``/etc/start`` correcting ``/bin/echo`` to ``echo`` to make ``/sys/class/gpio/*`` working nice.
 
 Original README from jserv follow.
 
