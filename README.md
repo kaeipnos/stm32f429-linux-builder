@@ -1,3 +1,19 @@
+Fork time
+=========
+
+This is a fork from from jserv/stm32f429-linux-builder, a bunch of Makefile
+stuff to build U-Boot+uClinux+BusyBox+rootfs for STM32F429IDISCO board.
+
+The goal is to integrate Robutest source stuff :
+
+* [U-Boot bootloader](https://github.com/robutest/u-boot)
+* [uClinux 2.6.33 kernel](https://github.com/robutest/uclinux)
+* [Busybox](https://github.com/robutest/busybox)
+
+in one place to play with, adding stuff, change default configuration...
+
+Original README from jserv follow.
+
 stm32f429-linux-builder
 ======================
 This is a simple tool designed to create a uClinux distribution for STM32f429
@@ -22,7 +38,7 @@ the build procedure:
     sudo make install
 ```
 * Set ARM/uClinux Toolchain:
-  - Download [arm-2010q1-189-arm-uclinuxeabi-i686-pc-linux-gnu.tar.bz2](https://sourcery.mentor.com/public/gnu_toolchain/arm-uclinuxeabi/arm-2010q1-189-arm-uclinuxeabi-i686-pc-linux-gnu.tar.bz2) from Mentor Graphics
+  - Download [arm-2010q1-189-arm-uclinuxeabi-i686-pc-linux-gnu.tar.bz2](http://www.codesourcery.com/sgpp/lite/arm/portal/package6503/public/arm-uclinuxeabi/arm-2010q1-189-arm-uclinuxeabi-i686-pc-linux-gnu.tar.bz2) from CodeSourcery
   - only arm-2010q1 is known to work; don't use SourceryG++ arm-2011.03
 ```
     tar jxvf arm-2010q1-189-arm-uclinuxeabi-i686-pc-linux-gnu.tar.bz2
