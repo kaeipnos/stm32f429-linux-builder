@@ -1,8 +1,8 @@
-Fork time
-=========
+uClinux for STM32F429IDISCO
+===========================
 
 This is a fork from from jserv/stm32f429-linux-builder, a bunch of Makefile
-stuff to build U-Boot+uClinux+BusyBox+rootfs for STM32F429IDISCO board.
+stuff to build UBoot+uClinux+BusyBox+rootfs for STM32F429IDISCO board.
 
 The goal is to integrate Robutest source stuff :
 
@@ -14,11 +14,22 @@ in one place to play with, adding stuff, change default configuration...
 
 Changes from jserv and Robutest/tmk versions :
 
-* add 5s bootdelay to U-Boot 
-* switch from ``ttyS2`` to ``ttyS0`` (uboot & uClinux & login) : PA10 = RX / PA09 = TX
-* add missing ``/sys`` in rootfs
+* add 5s default bootdelay to U-Boot 
+* switch console from ``ttyS2`` to ``ttyS0`` (uboot & uClinux & login) : PA10 = RX / PA09 = TX
+* add missing ``/sys`` mount point in rootfs
 * change ``/etc/start`` comment out ``/sys/class/gpio/*`` export on GPIO 109 and 110.
-* add /sys/class/leds support for LD3 and LD4 (this one default to heartbeat)
+* add ``/sys/class/leds`` support for LD3 and LD4 (this one default to ``heartbeat``)
+
+TODO:
+* more cleaning
+* replace sourceless ``fbtest`` with nyancat
+* add SPI
+* add i2c
+* add sdcard
+* add ADC support
+* add audio (?)
+* add RTC (?)
+* add USB (?)
 
 Original README from jserv follow.
 
