@@ -12,6 +12,10 @@ The goal is to integrate Robutest source stuff :
 
 in one place to play with, adding stuff, change default configuration...
 
+Note : OpenOCD 0.7.0 (and the 0.7.0-2 from Debian) can't write romfs to 
+flash because of a post-0.7.0-stable bug (bad flash detection on 
+stm32f429). You need to use 0.8.0 development version.
+
 Original README from jserv follow.
 
 stm32f429-linux-builder
