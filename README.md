@@ -16,8 +16,9 @@ Changes from jserv and Robutest/tmk versions :
 
 * add 5s bootdelay to U-Boot 
 * switch from ``ttyS2`` to ``ttyS0`` (uboot & uClinux & login) : PA10 = RX / PA09 = TX
-* add missing ``/sys`` in rootfs, and
-* change ``/etc/start`` correcting ``/bin/echo`` to ``echo`` to make ``/sys/class/gpio/*`` working nice.
+* add missing ``/sys`` in rootfs
+* change ``/etc/start`` comment out ``/sys/class/gpio/*`` export on GPIO 109 and 110.
+* add /sys/class/leds support for LD3 and LD4 (this one default to heartbeat)
 
 Original README from jserv follow.
 

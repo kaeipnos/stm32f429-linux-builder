@@ -5,6 +5,7 @@
 obj-$(CONFIG_MACH_STM32)	+= stm32_platform.o timer.o clock.o \
 				   iomux.o reboot.o exti.o
 obj-$(CONFIG_GPIOLIB)		+= gpio.o
+obj-$(CONFIG_LEDS_GPIO)		+= leds.o
 obj-$(CONFIG_STM32_DMA)		+= dmainit.o dmac.o
 obj-$(CONFIG_SERIAL_STM32)	+= uart.o
 obj-$(CONFIG_STM32_ETHER)	+= eth.o

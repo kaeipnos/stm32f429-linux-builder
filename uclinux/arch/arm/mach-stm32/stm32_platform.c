@@ -43,6 +43,7 @@
 #include <mach/dmainit.h>
 #include <mach/rtc.h>
 #include <mach/gpio.h>
+#include <mach/leds.h>
 
 /*
  * Prototypes
@@ -254,5 +255,12 @@ static void __init stm32_init(void)
 	 * Register the MCU GPIO chip
 	 */
 	stm32_gpio_init();
+#endif
+
+#if defined(CONFIG_LEDS_GPIO)
+        /*
+         * Register leds class device
+         */
+        stm32_led_init();
 #endif
 }
