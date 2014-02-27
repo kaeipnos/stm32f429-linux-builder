@@ -21,6 +21,7 @@ Changes from jserv and Robutest/tmk versions :
 * add ``/sys/class/leds`` support for LD3 and LD4 (this one default to ``heartbeat``)
 
 TODO:
+
 * more cleaning
 * replace sourceless ``fbtest`` with nyancat
 * add SPI
@@ -30,6 +31,8 @@ TODO:
 * add audio (?)
 * add RTC (?)
 * add USB (?)
+
+Note : you may need to go back to bootloader to be able to use OpenOCD and stop CPU to access flash for writer. So, just reboot and stop U-Boot in delay count before you ``make install``.
 
 Original README from jserv follow.
 
