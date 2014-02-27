@@ -12,10 +12,10 @@ The goal is to integrate Robutest source stuff :
 
 in one place to play with, adding stuff, change default configuration...
 
-Major change from jserv and Robutest/tmk version :
+Changes from jserv and Robutest/tmk versions :
 
 * add 5s bootdelay to U-Boot 
-* switch from ``ttyS2`` to ``ttyS0`` (uboot & uClinux & login)
+* switch from ``ttyS2`` to ``ttyS0`` (uboot & uClinux & login) : PA10 = RX / PA09 = TX
 * add missing ``/sys`` in rootfs, and
 * change ``/etc/start`` correcting ``/bin/echo`` to ``echo`` to make ``/sys/class/gpio/*`` working nice.
 
