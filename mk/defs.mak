@@ -1,5 +1,5 @@
-uboot_dir := $(root_dir)/$(uboot_version)
-kernel_dir := $(root_dir)/$(kernel_version)
+uboot_dir := $(root_dir)/u-boot
+kernel_dir := $(root_dir)/uclinux
 busybox_dir := $(root_dir)/$(busybox_version)
 rootfs_dir := $(root_dir)/rootfs
 
