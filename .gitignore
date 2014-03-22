@@ -3,6 +3,7 @@
 /busybox-*
 
 # generated
+/staging
 /out
 stamp-kernel
 stamp-rootfs

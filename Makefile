@@ -26,6 +26,10 @@ prepare:
 
 include mk/download.mak
 
+# local programs
+localpgm:
+	env LANG=C make -C localpgms/ ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) 
+
 # u-boot
 stamp-uboot:
 	$(MAKE) build-uboot
@@ -54,6 +58,22 @@ rootfs_clean:
 include mk/flash.mak
 install: $(TARGETS)
 	$(shell ${FLASH_CMD})
+
+.PHONY += install_uboot
+include mk/flash.mak
+install_uboot: $(TARGETS)
+	$(shell ${FLASH_CMD_UBOOT})
+
+.PHONY += install_kernel
+include mk/flash.mak
+install_kernel: $(TARGETS)
+	$(shell ${FLASH_CMD_KERN})
+
+.PHONY += install_rootfs
+include mk/flash.mak
+install_rootfs: $(TARGETS)
+	$(shell ${FLASH_CMD_ROOTFS})
+
 
 .PHONY += clean
 clean: uboot_clean kernel_clean rootfs_clean
