@@ -19,13 +19,31 @@ Changes from jserv and Robutest/tmk versions :
 * add missing ``/sys`` mount point in rootfs
 * change ``/etc/start`` comment out ``/sys/class/gpio/*`` export on GPIO 109 and 110.
 * add ``/sys/class/leds`` support for LD3 and LD4 (this one default to ``heartbeat``)
+* add i2c bus support (``/dev/i2c-2``). ``i2cdetect`` show onboard STMPE811 (4-wire resistive touch screen controller) :
+```
+# i2cdetect 2 
+WARNING! This program can confuse your I2C bus, cause data loss and worse!
+I will probe file /dev/i2c-2.
+I will probe address range 0x03-0x77.
+Continue? [Y/n] 
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+40: -- 41 -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: -- -- -- -- -- -- -- --
+```
 
 TODO:
 
 * more cleaning
 * replace sourceless ``fbtest`` with nyancat
 * add SPI
-* add i2c
+* ~~add i2c~~ DONE
+* STMPE811 as input device
 * add sdcard
 * add ADC support
 * add audio (?)
