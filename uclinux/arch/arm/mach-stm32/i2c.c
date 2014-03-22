@@ -204,6 +204,15 @@ void __init stm32_i2c_init(void)
 #endif
 
 #endif
-	}
+	} else if (p == PLATFORM_STM32_STM32429_DISCO) {
+#if defined(CONFIG_STM32_I2C3)
+          static struct i2c_board_info __initdata
+            stm32f4_bdinfo_i2c3[] = {
+            };
+          i2c_register_board_info(2, stm32f4_bdinfo_i2c3,
+              sizeof(stm32f4_bdinfo_i2c3) /
+              sizeof (struct i2c_board_info));
+        }
+#endif
 }
 

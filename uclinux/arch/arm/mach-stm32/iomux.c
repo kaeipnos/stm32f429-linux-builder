@@ -338,6 +338,19 @@ void __init stm32_iomux_init(void)
 		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_USART3);
 #endif
 
+                /*
+                 * Pin configuration for I2C of the STM32F429ZI-DISCO board.
+                 */
+#if defined(CONFIG_STM32_I2C3)
+                gpio_dsc.port = 0;      /* SCL */
+                gpio_dsc.pin  = 8;
+                stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
+
+                gpio_dsc.port = 2;      /* SDA */
+                gpio_dsc.pin  = 9;
+                stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
+#endif
+
 		/*
 		 * Pin configuration for the User LED of the STM32F429ZI-DISCO board.
 		 */
@@ -469,7 +482,6 @@ void __init stm32_iomux_init(void)
 #error		IOMUX for STM32 I2C2 undefined
 #endif
 #if defined(CONFIG_STM32_I2C3)
-//#error		IOMUX for STM32 I2C3 undefined
                 gpio_dsc.port = 0;      /* SCL */
                 gpio_dsc.pin  = 8;
                 stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
