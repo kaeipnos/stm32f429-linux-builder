@@ -36,12 +36,23 @@ Continue? [Y/n]
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 70: -- -- -- -- -- -- -- --
 ```
+* add spi and spi-dev support on SPI5 (with CS on PC1). Onboard ST L3GD20 MEMS motion sensor 3-axis digital gyroscope reply on ``/dev/spi0`` (153:0) to WHOAMI (0001111) with L3GD20 id (11010100) :
+
+```
+ # spidev_test -D /dev/spi0
+ spi mode: 0
+ bits per word: 8
+ max speed: 500000 Hz (500 KHz)
+
+ FF D4 
+```
 
 TODO:
 
 * more cleaning
 * replace sourceless ``fbtest`` with nyancat
-* add SPI
+* ~~add SPI~~ DONE
+* add ST L3GD20 gyroscope userspace tool
 * ~~add i2c~~ DONE
 * STMPE811 as input device
 * add sdcard
@@ -49,13 +60,14 @@ TODO:
 * add audio (?)
 * add RTC (?)
 * add USB (?)
+* ~~add Ethernet~~ This can't be done without a board hack (http://www.emcraft.com/stm32f429discovery/connecting-to-ethernet-on-stm32f429)
 
 Note : you may need to go back to bootloader to be able to use OpenOCD and stop CPU to access flash for writer. So, just reboot and stop U-Boot in delay count before you ``make install``.
 
 Original README from jserv follow.
 
 stm32f429-linux-builder
-======================
+=======================
 This is a simple tool designed to create a uClinux distribution for STM32f429
 Discovery board from [STMicroelectronics](http://www.st.com/). STM32F429 MCU
 offers the performance of ARM Cortex M4 core (with floating point unit) running
