@@ -1,0 +1,4 @@
+/bin
+*.o
+*.gdb
+spidev_test

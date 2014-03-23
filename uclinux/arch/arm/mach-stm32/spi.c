@@ -353,5 +353,39 @@ void __init stm32_spi_init(void)
 			sizeof(spi_stm32_flash_info__stm32f4_som) / 
 			sizeof(struct spi_board_info));
 #endif
-	}
+	} else if (p == PLATFORM_STM32_STM32429_DISCO) {
+#if defined(CONFIG_STM32_SPI5) && defined(CONFIG_SPI_SPIDEV)
+          /*
+           * spi slave
+           */
+          static struct spi_stm32_slv 
+            spi_stm32_slv_memsgyro = {
+            .timeout = 3,
+          };
+          static struct spi_board_info 
+            spi_stm32_info_memsgyro = {
+              .modalias = "spidev",
+              .max_speed_hz = 25000000,
+              .chip_select = 0,
+              .controller_data = &spi_stm32_slv_memsgyro,
+              .mode = SPI_MODE_3,
+            };
+
+          spi_stm32_info_memsgyro.bus_num = 4; /* SPI5 */
+          spi_stm32_slv_memsgyro.cs_gpio = 
+            STM32_GPIO_PORTPIN2NUM(2, 1), // port C, pin 1
+
+            /*
+             * Set up the Chip Select GPIO for the SPI MEMS Gyro
+             */
+            gpio_direction_output(STM32_GPIO_PORTPIN2NUM(2, 1), 1);
+          
+          /*
+           * Register SPI slaves
+           */
+          spi_register_board_info(&spi_stm32_info_memsgyro,
+              sizeof(spi_stm32_info_memsgyro) /
+              sizeof(struct spi_board_info));
+#endif
+        }
 }

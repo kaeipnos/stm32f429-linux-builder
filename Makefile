@@ -26,10 +26,6 @@ prepare:
 
 include mk/download.mak
 
-# local programs
-localpgm:
-	env LANG=C make -C localpgms/ ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) 
-
 # u-boot
 stamp-uboot:
 	$(MAKE) build-uboot
@@ -45,6 +41,10 @@ stamp-kernel:
 include mk/kernel.mak
 kernel_clean:
 	rm -rf $(target_out_kernel) stamp-kernel
+
+# local programs
+localprgs_clean:
+	make -C $(localprgs_dir) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) clean
 
 # Root file system
 stamp-rootfs:
@@ -76,8 +76,9 @@ install_rootfs: $(TARGETS)
 
 
 .PHONY += clean
-clean: uboot_clean kernel_clean rootfs_clean
+clean: uboot_clean kernel_clean rootfs_clean localprgs_clean
 	rm -rf $(target_out)
+	rm -rf $(staging_dir)
 
 .PHONY += distclean
 distclean: clean

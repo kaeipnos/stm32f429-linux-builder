@@ -1,4 +1,4 @@
-build-rootfs: busybox $(rootfs_target)
+build-rootfs: localprgs busybox $(rootfs_target)
 
 busybox:
 	$(shell mkdir -p ${target_out_busybox})
@@ -10,8 +10,11 @@ busybox:
 		ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) \
 		CFLAGS=$(ROOTFS_CFLAGS) SKIP_STRIP=y \
 		CONFIG_PREFIX=$(target_out_romfs) install
+localprgs:
+	make -C $(localprgs_dir) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) install
 
 $(rootfs_target): $(rootfs_dir) $(target_out_busybox)/.config
+	cp -f $(localprgs_dir)/bin/* $(target_out_romfs)/usr/bin
 	cp -af $(rootfs_dir)/* $(target_out_romfs)
 	cp -f $(target_out_kernel)/fs/ext2/ext2.ko $(target_out_romfs)/lib/modules
 	cp -f $(target_out_kernel)/fs/mbcache.ko $(target_out_romfs)/lib/modules
