@@ -387,5 +387,38 @@ void __init stm32_spi_init(void)
               sizeof(spi_stm32_info_memsgyro) /
               sizeof(struct spi_board_info));
 #endif
+#if defined(CONFIG_STM32_SPI5) && defined(CONFIG_SPI_SPIDEV)
+          /*
+           * spi slave
+           */
+          static struct spi_stm32_slv 
+            spi_stm32_slv_outbus = {
+            .timeout = 3,
+          };
+          static struct spi_board_info 
+            spi_stm32_info_outbus = {
+              .modalias = "spidev",
+              .max_speed_hz = 25000000,
+              .chip_select = 0,
+              .controller_data = &spi_stm32_slv_outbus,
+              .mode = SPI_MODE_3,
+            };
+
+          spi_stm32_info_outbus.bus_num = 3; /* SPI4 */
+          spi_stm32_slv_outbus.cs_gpio = 
+            STM32_GPIO_PORTPIN2NUM(4, 4), // port E, pin 4
+
+            /*
+             * Set up the Chip Select GPIO for the SPI outbus
+             */
+            gpio_direction_output(STM32_GPIO_PORTPIN2NUM(4, 4), 1);
+          
+          /*
+           * Register SPI slaves
+           */
+          spi_register_board_info(&spi_stm32_info_outbus,
+              sizeof(spi_stm32_info_outbus) /
+              sizeof(struct spi_board_info));
+#endif
         }
 }

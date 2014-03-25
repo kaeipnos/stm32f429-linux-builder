@@ -370,10 +370,24 @@ void __init stm32_iomux_init(void)
 #error          IOMUX for STM32 SPI2 undefined
 #endif
 #if defined(CONFIG_STM32_SPI3)
-#error          IOMUX for STM32 SPI4 undefined
+#error          IOMUX for STM32 SPI3 undefined
 #endif
 #if defined(CONFIG_STM32_SPI4)
-#error          IOMUX for STM32 SPI4 undefined
+		gpio_dsc.port = 4;	/* SCK */
+		gpio_dsc.pin  = 2;      /* PE2 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_SPI4);
+
+		gpio_dsc.port = 4;	/* MISO */ 
+		gpio_dsc.pin  = 5;      /* PE5 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_SPI4);
+
+		gpio_dsc.port = 4;	/* MOSI */
+		gpio_dsc.pin  = 6;      /* PE6 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_SPI4);
+
+		gpio_dsc.port = 4;	/* NCS */
+		gpio_dsc.pin  = 4;      /* PE4 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_OUT);
 #endif
 #if defined(CONFIG_STM32_SPI5)
 		gpio_dsc.port = 5;	/* SCK */
@@ -487,7 +501,21 @@ void __init stm32_iomux_init(void)
 #error		IOMUX for STM32 SPI3 undefined
 #endif
 #if defined(CONFIG_STM32_SPI4)
-#error		IOMUX for STM32 SPI4 undefined
+		gpio_dsc.port = 4;	/* SCK */
+		gpio_dsc.pin  = 2;      /* PE2 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_SPI4);
+
+		gpio_dsc.port = 4;	/* MISO */ 
+		gpio_dsc.pin  = 5;      /* PE5 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_SPI4);
+
+		gpio_dsc.port = 4;	/* MOSI */
+		gpio_dsc.pin  = 6;      /* PE6 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_SPI4);
+
+		gpio_dsc.port = 4;	/* NCS */
+		gpio_dsc.pin  = 4;      /* PE4 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_OUT);
 #endif
 #if defined(CONFIG_STM32_SPI5)
 		gpio_dsc.port = 7;	/* CLCK */
