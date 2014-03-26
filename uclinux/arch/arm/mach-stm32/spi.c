@@ -387,7 +387,7 @@ void __init stm32_spi_init(void)
               sizeof(spi_stm32_info_memsgyro) /
               sizeof(struct spi_board_info));
 #endif
-#if defined(CONFIG_STM32_SPI5) && defined(CONFIG_SPI_SPIDEV)
+#if defined(CONFIG_STM32_SPI4) && defined(CONFIG_SPI_SPIDEV)
           /*
            * spi slave
            */

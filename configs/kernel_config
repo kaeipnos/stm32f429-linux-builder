@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.33
-# Sun Mar 23 12:17:27 2014
+# Wed Mar 26 10:33:42 2014
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -355,9 +355,6 @@ CONFIG_ARCH_SUSPEND_POSSIBLE=y
 # CONFIG_DEFAULT_VEGAS is not set
 # CONFIG_DEFAULT_WESTWOOD is not set
 # CONFIG_DEFAULT_RENO is not set
-# CONFIG_SCTP_HMAC_NONE is not set
-# CONFIG_SCTP_HMAC_SHA1 is not set
-# CONFIG_SCTP_HMAC_MD5 is not set
 # CONFIG_MAC80211_RC_DEFAULT_PID is not set
 # CONFIG_MAC80211_RC_DEFAULT_MINSTREL is not set
 
@@ -785,9 +782,26 @@ CONFIG_LOGO_LINUX_CLUT224=y
 # CONFIG_USB_G_PRINTER is not set
 # CONFIG_USB_CDC_COMPOSITE is not set
 # CONFIG_USB_G_MULTI is not set
-# CONFIG_MMC is not set
+CONFIG_MMC=y
+# CONFIG_MMC_DEBUG is not set
+# CONFIG_MMC_UNSAFE_RESUME is not set
+
+#
+# MMC/SD/SDIO Card Drivers
+#
+CONFIG_MMC_BLOCK=y
+CONFIG_MMC_BLOCK_BOUNCE=y
+# CONFIG_SDIO_UART is not set
+# CONFIG_MMC_TEST is not set
+
+#
+# MMC/SD/SDIO Host Controller Drivers
+#
+# CONFIG_MMC_ARMMMCI is not set
+# CONFIG_MMC_SDHCI is not set
 # CONFIG_MMC_AT91 is not set
 # CONFIG_MMC_ATMELMCI is not set
+CONFIG_MMC_SPI=y
 # CONFIG_MEMSTICK is not set
 CONFIG_NEW_LEDS=y
 CONFIG_LEDS_CLASS=y
@@ -966,9 +980,9 @@ CONFIG_GENERIC_FIND_LAST_BIT=y
 # CONFIG_CRC_CCITT is not set
 # CONFIG_CRC16 is not set
 # CONFIG_CRC_T10DIF is not set
-# CONFIG_CRC_ITU_T is not set
+CONFIG_CRC_ITU_T=y
 CONFIG_CRC32=y
-# CONFIG_CRC7 is not set
+CONFIG_CRC7=y
 # CONFIG_LIBCRC32C is not set
 CONFIG_HAS_IOMEM=y
 CONFIG_HAS_IOPORT=y
