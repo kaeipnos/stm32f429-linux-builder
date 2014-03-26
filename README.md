@@ -14,12 +14,12 @@ in one place to play with, adding stuff, change default configuration...
 
 Changes from jserv and Robutest/tmk versions :
 
-* add 5s default bootdelay to U-Boot 
-* switch console from ``ttyS2`` to ``ttyS0`` (uboot & uClinux & login) : PA10 = RX / PA09 = TX
+* add 5s default **bootdelay** to U-Boot 
+* switch **console** from ``ttyS2`` to ``ttyS0`` (uboot & uClinux & login) : PA10 = RX / PA09 = TX
 * add missing ``/sys`` mount point in rootfs
 * change ``/etc/start`` comment out ``/sys/class/gpio/*`` export on GPIO 109 and 110.
-* add ``/sys/class/leds`` support for LD3 and LD4 (this one default to ``heartbeat``)
-* add i2c bus support (``/dev/i2c-2``). ``i2cdetect`` show onboard STMPE811 (4-wire resistive touch screen controller) :
+* add ``/sys/class/leds`` support for **LD3** and **LD4** (this one default to ``heartbeat``)
+* add **i2c bus support** (``/dev/i2c-2``). ``i2cdetect`` show onboard STMPE811 (4-wire resistive touch screen controller) :
 ```
 # i2cdetect 2 
 WARNING! This program can confuse your I2C bus, cause data loss and worse!
@@ -36,7 +36,7 @@ Continue? [Y/n]
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
 70: -- -- -- -- -- -- -- --
 ```
-* add spi and spi-dev support on SPI5 (with CS on PC1). Onboard ST L3GD20 MEMS motion sensor 3-axis digital gyroscope reply on ``/dev/spi0`` (153:0) to WHOAMI (0001111) with L3GD20 id (11010100) :
+* add **SPI** and **spi-dev** support on SPI5 (with CS on PC1). Onboard ST L3GD20 MEMS motion sensor 3-axis digital gyroscope reply on ``/dev/spi0`` (153:0) to WHOAMI (0001111) with L3GD20 id (11010100) :
 
 ```
  # spidev_test -D /dev/spi0
@@ -46,8 +46,8 @@ Continue? [Y/n]
 
  FF D4 
 ```
-* add little blue button to get an interrupt when pushed 
-* add external SPI4 support (SCK/NSS/MISO/MOSI on PE2/PE4/PE5/PE6) with MMC SPI (default in kernel config) or spi-dev (if MMC SPI disabled). Not perfect because card detection on PA5 use polling (not IRQ, i'm not very ahppy with this), but it works :
+* add little **blue button** to get an interrupt when pushed 
+* add external **SPI4 support** (SCK/NSS/MISO/MOSI on PE2/PE4/PE5/PE6) with **MMC** SPI (default in kernel config) or spi-dev (if MMC SPI disabled). Not perfect because card detection on PA5 use polling (not IRQ, i'm not very ahppy with this), but it works :
 
 ```
 spi_stm32 spi_stm32.4: SPI Controller 4 at 40015000,hz=90000000
@@ -80,7 +80,7 @@ TODO:
 * add ST L3GD20 gyroscope userspace tool
 * ~~add i2c~~ DONE
 * STMPE811 as input device
-* add sdcard : WIP
+* ~~add sdcard~~
 * add ADC support
 * add audio (?)
 * add RTC (?)
