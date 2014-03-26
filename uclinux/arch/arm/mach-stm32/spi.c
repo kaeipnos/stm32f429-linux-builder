@@ -23,16 +23,41 @@
 #include <linux/sysdev.h>
 #include <linux/io.h>
 #include <linux/gpio.h>
+#include <linux/interrupt.h>
 #include <linux/mtd/physmap.h>
 #include <linux/mtd/mtd.h>
 #include <linux/mtd/partitions.h>
 #include <linux/spi/spi.h>
 #include <linux/spi/spi_stm32.h>
 #include <linux/spi/flash.h>
+#include <linux/spi/mmc_spi.h>
 #include <mach/stm32.h>
 #include <mach/platform.h>
 #include <mach/clock.h>
 #include <mach/spi.h>
+#include <mach/exti.h>
+
+
+#if defined(CONFIG_STM32_SPI4) && defined(CONFIG_MMC_SPI)
+
+#define MMC_SPI_CARD_DETECT_INT  23
+#define MMC_SPI_CARD_DETECT_PORT 0
+#define MMC_SPI_CARD_DETECT_PIN  5
+
+static int stm32_mmc_spi_init(struct device *dev,
+    irqreturn_t (*detect_int)(int, void *), void *data) {
+  printk("INFO: enabling interrupt on SD detect\n");
+  /* enable int on EXTI9_5 */
+  stm32_exti_enable_int(STM32_GPIO_PORTPIN2NUM(MMC_SPI_CARD_DETECT_PORT,MMC_SPI_CARD_DETECT_PIN),1);
+  /* install isr */
+  return request_irq(MMC_SPI_CARD_DETECT_INT, detect_int,
+      IRQF_TRIGGER_FALLING, "mmc-spi-detect", data);
+}
+
+static void stm32_mmc_spi_exit(struct device *dev, void *data) {
+  free_irq(MMC_SPI_CARD_DETECT_INT, data);
+}
+#endif
 
 /* 
  * Size of the SPI controller register area
@@ -387,7 +412,41 @@ void __init stm32_spi_init(void)
               sizeof(spi_stm32_info_memsgyro) /
               sizeof(struct spi_board_info));
 #endif
-#if defined(CONFIG_STM32_SPI4) && defined(CONFIG_SPI_SPIDEV)
+#if defined(CONFIG_STM32_SPI4) && (defined(CONFIG_SPI_SPIDEV) || defined(CONFIG_MMC_SPI))
+#if defined(CONFIG_MMC_SPI)
+          static struct mmc_spi_platform_data
+            stm32_mmc_spi_pdata = {
+              .init = stm32_mmc_spi_init,
+              .exit = stm32_mmc_spi_exit,
+              .detect_delay = 100, /* msecs */
+              .powerup_msecs  = 100,
+            };
+
+          static struct spi_stm32_slv
+            spi_stm32_slv_mmc = {
+//              .enable_dma = 0,
+//              .bits_per_word = 8,
+              .timeout = 3,
+            };
+
+          static struct spi_board_info spi_stm32_info_mmc = {
+            .modalias = "mmc_spi",
+            .max_speed_hz = 20000000,
+            .bus_num = 3, /* SPI4 */
+            .chip_select = 0,
+            .platform_data = &stm32_mmc_spi_pdata,
+            .controller_data = &spi_stm32_slv_mmc,
+            .mode = SPI_MODE_3,
+          };
+
+          spi_stm32_slv_mmc.cs_gpio =
+            STM32_GPIO_PORTPIN2NUM(4, 4), // port E, pin 4
+          gpio_direction_output(STM32_GPIO_PORTPIN2NUM(4, 4), 1);
+          spi_register_board_info(&spi_stm32_info_mmc,
+              sizeof(spi_stm32_info_mmc) /
+              sizeof(struct spi_board_info));
+
+#else
           /*
            * spi slave
            */
@@ -419,6 +478,7 @@ void __init stm32_spi_init(void)
           spi_register_board_info(&spi_stm32_info_outbus,
               sizeof(spi_stm32_info_outbus) /
               sizeof(struct spi_board_info));
+#endif
 #endif
         }
 }

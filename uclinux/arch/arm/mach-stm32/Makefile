@@ -3,7 +3,7 @@
 #
 
 obj-$(CONFIG_MACH_STM32)	+= stm32_platform.o timer.o clock.o \
-				   iomux.o reboot.o exti.o
+				   iomux.o reboot.o exti.o button.o
 obj-$(CONFIG_GPIOLIB)		+= gpio.o
 obj-$(CONFIG_LEDS_GPIO)		+= leds.o
 obj-$(CONFIG_STM32_DMA)		+= dmainit.o dmac.o

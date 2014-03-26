@@ -44,6 +44,7 @@
 #include <mach/rtc.h>
 #include <mach/gpio.h>
 #include <mach/leds.h>
+#include <mach/button.h>
 
 /*
  * Prototypes
@@ -263,4 +264,6 @@ static void __init stm32_init(void)
          */
         stm32_led_init();
 #endif
+
+        stm32_button_init();
 }
