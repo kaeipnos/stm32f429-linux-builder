@@ -46,6 +46,31 @@ Continue? [Y/n]
 
  FF D4 
 ```
+* add little blue button to get an interrupt when pushed 
+* add external SPI4 support (SCK/NSS/MISO/MOSI on PE2/PE4/PE5/PE6) with MMC SPI (default in kernel config) or spi-dev (if MMC SPI disabled). Not perfect because card detection on PA5 need fixing (int freeze serial console). For now, SD/MMC on SPI4 work at boot time :
+
+```
+spi_stm32 spi_stm32.4: SPI Controller 4 at 40015000,hz=90000000
+mmc_spi spi3.0: ASSUMING SPI bus stays unshared!
+mmc_spi spi3.0: ASSUMING 3.2-3.4 V slot power
+INFO: enabling interrupt on SD detect
+mmc_spi spi3.0: SD/MMC host mmc0, no DMA, no WP, no poweroff
+mmc0: new MMC card on SPI
+mmcblk0: mmc0:0001 AF HMP 490 MiB 
+ mmcblk0: p1
+[...]
+
+~ # mount /dev/mmcblk0p1 /mnt/sdcard/
+~ # df
+Filesystem           1K-blocks      Used Available Use% Mounted on
+/dev/root                  415       415         0 100% /
+/dev/ram0                 1003        17       986   2% /var
+/dev/mmcblk0p1          484898      2364    457498   1% /mnt/sdcard
+~ # ls /mnt/sdcard/
+gpg.conf      pubring.gpg   random_seed   trustdb.gpg
+lost+found    pubring.gpg~  secring.gpg
+~ # umount /mnt/sdcard/
+```
 
 TODO:
 
@@ -55,7 +80,7 @@ TODO:
 * add ST L3GD20 gyroscope userspace tool
 * ~~add i2c~~ DONE
 * STMPE811 as input device
-* add sdcard
+* add sdcard : WIP
 * add ADC support
 * add audio (?)
 * add RTC (?)
