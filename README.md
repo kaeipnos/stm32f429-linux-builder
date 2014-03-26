@@ -47,7 +47,7 @@ Continue? [Y/n]
  FF D4 
 ```
 * add little blue button to get an interrupt when pushed 
-* add external SPI4 support (SCK/NSS/MISO/MOSI on PE2/PE4/PE5/PE6) with MMC SPI (default in kernel config) or spi-dev (if MMC SPI disabled). Not perfect because card detection on PA5 need fixing (int freeze serial console). For now, SD/MMC on SPI4 work at boot time :
+* add external SPI4 support (SCK/NSS/MISO/MOSI on PE2/PE4/PE5/PE6) with MMC SPI (default in kernel config) or spi-dev (if MMC SPI disabled). Not perfect because card detection on PA5 use polling (not IRQ, i'm not very ahppy with this), but it works :
 
 ```
 spi_stm32 spi_stm32.4: SPI Controller 4 at 40015000,hz=90000000

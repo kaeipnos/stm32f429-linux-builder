@@ -31,6 +31,7 @@
 #include <linux/spi/spi_stm32.h>
 #include <linux/spi/flash.h>
 #include <linux/spi/mmc_spi.h>
+#include <linux/mmc/host.h>
 #include <mach/stm32.h>
 #include <mach/platform.h>
 #include <mach/clock.h>
@@ -44,19 +45,25 @@
 #define MMC_SPI_CARD_DETECT_PORT 0
 #define MMC_SPI_CARD_DETECT_PIN  5
 
+/*
 static int stm32_mmc_spi_init(struct device *dev,
     irqreturn_t (*detect_int)(int, void *), void *data) {
   printk("INFO: enabling interrupt on SD detect\n");
-  /* enable int on EXTI9_5 */
   stm32_exti_enable_int(STM32_GPIO_PORTPIN2NUM(MMC_SPI_CARD_DETECT_PORT,MMC_SPI_CARD_DETECT_PIN),1);
-  /* install isr */
   return request_irq(MMC_SPI_CARD_DETECT_INT, detect_int,
       IRQF_TRIGGER_FALLING, "mmc-spi-detect", data);
 }
+*/
 
+static int stm32_mmc_spi_get_cd(struct device *dev) {
+  return !gpio_get_value(STM32_GPIO_PORTPIN2NUM(MMC_SPI_CARD_DETECT_PORT,MMC_SPI_CARD_DETECT_PIN));
+}
+
+/*
 static void stm32_mmc_spi_exit(struct device *dev, void *data) {
   free_irq(MMC_SPI_CARD_DETECT_INT, data);
 }
+*/
 #endif
 
 /* 
@@ -416,8 +423,10 @@ void __init stm32_spi_init(void)
 #if defined(CONFIG_MMC_SPI)
           static struct mmc_spi_platform_data
             stm32_mmc_spi_pdata = {
-              .init = stm32_mmc_spi_init,
-              .exit = stm32_mmc_spi_exit,
+              .caps = MMC_CAP_NEEDS_POLL,
+              .get_cd = stm32_mmc_spi_get_cd,
+//              .init = stm32_mmc_spi_init,
+//              .exit = stm32_mmc_spi_exit,
               .detect_delay = 100, /* msecs */
               .powerup_msecs  = 100,
             };
