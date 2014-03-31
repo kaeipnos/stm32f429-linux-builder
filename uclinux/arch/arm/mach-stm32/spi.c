@@ -55,8 +55,9 @@ static int stm32_mmc_spi_init(struct device *dev,
 }
 */
 
-static int stm32_mmc_spi_get_cd(struct device *dev) {
-  return !gpio_get_value(STM32_GPIO_PORTPIN2NUM(MMC_SPI_CARD_DETECT_PORT,MMC_SPI_CARD_DETECT_PIN));
+static int stm32_mmc_spi_get_cd(struct device *dev)
+{
+	return !gpio_get_value(STM32_GPIO_PORTPIN2NUM(MMC_SPI_CARD_DETECT_PORT,MMC_SPI_CARD_DETECT_PIN));
 }
 
 /*
@@ -329,7 +330,7 @@ void __init stm32_spi_init(void)
 
 		/*
 		 * SPI Flash
- 		 */
+		 */
 		static struct flash_platform_data 
 			spi_stm32_flash_data__stm32f4_som = {
 			.name = "m25p32",
@@ -348,8 +349,8 @@ void __init stm32_spi_init(void)
 		SPI_FLASH_CS_PIN__STM32F4_SOM)
 
 		/*
- 		 * SPI slave
- 		 */
+		 * SPI slave
+		 */
 		static struct spi_stm32_slv 
 			spi_stm32_flash_slv__stm32f4_som  = {
 			.cs_gpio = SPI_FLASH_CS_GPIO__STM32F4_SOM,
@@ -387,107 +388,106 @@ void __init stm32_spi_init(void)
 #endif
 	} else if (p == PLATFORM_STM32_STM32429_DISCO) {
 #if defined(CONFIG_STM32_SPI5) && defined(CONFIG_SPI_SPIDEV)
-          /*
-           * spi slave
-           */
-          static struct spi_stm32_slv 
-            spi_stm32_slv_memsgyro = {
-            .timeout = 3,
-          };
-          static struct spi_board_info 
-            spi_stm32_info_memsgyro = {
-              .modalias = "spidev",
-              .max_speed_hz = 25000000,
-              .chip_select = 0,
-              .controller_data = &spi_stm32_slv_memsgyro,
-              .mode = SPI_MODE_3,
-            };
+		/*
+		 * spi slave
+		 */
+		static struct spi_stm32_slv 
+			spi_stm32_slv_memsgyro = {
+				.timeout = 3,
+			};
+		static struct spi_board_info 
+			spi_stm32_info_memsgyro = {
+				.modalias = "spidev",
+				.max_speed_hz = 25000000,
+				.chip_select = 0,
+				.controller_data = &spi_stm32_slv_memsgyro,
+				.mode = SPI_MODE_3,
+			};
 
-          spi_stm32_info_memsgyro.bus_num = 4; /* SPI5 */
-          spi_stm32_slv_memsgyro.cs_gpio = 
-            STM32_GPIO_PORTPIN2NUM(2, 1), // port C, pin 1
+		spi_stm32_info_memsgyro.bus_num = 4; /* SPI5 */
+		spi_stm32_slv_memsgyro.cs_gpio = 
+			STM32_GPIO_PORTPIN2NUM(2, 1), // port C, pin 1
 
-            /*
-             * Set up the Chip Select GPIO for the SPI MEMS Gyro
-             */
-            gpio_direction_output(STM32_GPIO_PORTPIN2NUM(2, 1), 1);
-          
-          /*
-           * Register SPI slaves
-           */
-          spi_register_board_info(&spi_stm32_info_memsgyro,
-              sizeof(spi_stm32_info_memsgyro) /
-              sizeof(struct spi_board_info));
+			/*
+			 * Set up the Chip Select GPIO for the SPI MEMS Gyro
+			 */
+			gpio_direction_output(STM32_GPIO_PORTPIN2NUM(2, 1), 1);
+
+		/*
+		 * Register SPI slaves
+		 */
+		spi_register_board_info(&spi_stm32_info_memsgyro,
+				sizeof(spi_stm32_info_memsgyro) /
+				sizeof(struct spi_board_info));
 #endif
 #if defined(CONFIG_STM32_SPI4) && (defined(CONFIG_SPI_SPIDEV) || defined(CONFIG_MMC_SPI))
 #if defined(CONFIG_MMC_SPI)
-          static struct mmc_spi_platform_data
-            stm32_mmc_spi_pdata = {
-              .caps = MMC_CAP_NEEDS_POLL,
-              .get_cd = stm32_mmc_spi_get_cd,
-//              .init = stm32_mmc_spi_init,
-//              .exit = stm32_mmc_spi_exit,
-              .detect_delay = 100, /* msecs */
-              .powerup_msecs  = 100,
-            };
+		static struct mmc_spi_platform_data
+			stm32_mmc_spi_pdata = {
+				.caps = MMC_CAP_NEEDS_POLL,
+				.get_cd = stm32_mmc_spi_get_cd,
+				//              .init = stm32_mmc_spi_init,
+				//              .exit = stm32_mmc_spi_exit,
+				.detect_delay = 100, /* msecs */
+				.powerup_msecs  = 100,
+			};
 
-          static struct spi_stm32_slv
-            spi_stm32_slv_mmc = {
-//              .enable_dma = 0,
-//              .bits_per_word = 8,
-              .timeout = 3,
-            };
+		static struct spi_stm32_slv
+			spi_stm32_slv_mmc = {
+				//              .enable_dma = 0,
+				//              .bits_per_word = 8,
+				.timeout = 3,
+			};
 
-          static struct spi_board_info spi_stm32_info_mmc = {
-            .modalias = "mmc_spi",
-            .max_speed_hz = 20000000,
-            .bus_num = 3, /* SPI4 */
-            .chip_select = 0,
-            .platform_data = &stm32_mmc_spi_pdata,
-            .controller_data = &spi_stm32_slv_mmc,
-            .mode = SPI_MODE_3,
-          };
+		static struct spi_board_info spi_stm32_info_mmc = {
+			.modalias = "mmc_spi",
+			.max_speed_hz = 20000000,
+			.bus_num = 3, /* SPI4 */
+			.chip_select = 0,
+			.platform_data = &stm32_mmc_spi_pdata,
+			.controller_data = &spi_stm32_slv_mmc,
+			.mode = SPI_MODE_3,
+		};
 
-          spi_stm32_slv_mmc.cs_gpio =
-            STM32_GPIO_PORTPIN2NUM(4, 4), // port E, pin 4
-          gpio_direction_output(STM32_GPIO_PORTPIN2NUM(4, 4), 1);
-          spi_register_board_info(&spi_stm32_info_mmc,
-              sizeof(spi_stm32_info_mmc) /
-              sizeof(struct spi_board_info));
-
+		spi_stm32_slv_mmc.cs_gpio =
+			STM32_GPIO_PORTPIN2NUM(4, 4), // port E, pin 4
+			gpio_direction_output(STM32_GPIO_PORTPIN2NUM(4, 4), 1);
+		spi_register_board_info(&spi_stm32_info_mmc,
+				sizeof(spi_stm32_info_mmc) /
+				sizeof(struct spi_board_info));
 #else
-          /*
-           * spi slave
-           */
-          static struct spi_stm32_slv 
-            spi_stm32_slv_outbus = {
-            .timeout = 3,
-          };
-          static struct spi_board_info 
-            spi_stm32_info_outbus = {
-              .modalias = "spidev",
-              .max_speed_hz = 25000000,
-              .chip_select = 0,
-              .controller_data = &spi_stm32_slv_outbus,
-              .mode = SPI_MODE_3,
-            };
+		/*
+		 * spi slave
+		 */
+		static struct spi_stm32_slv 
+			spi_stm32_slv_outbus = {
+				.timeout = 3,
+			};
+		static struct spi_board_info 
+			spi_stm32_info_outbus = {
+				.modalias = "spidev",
+				.max_speed_hz = 25000000,
+				.chip_select = 0,
+				.controller_data = &spi_stm32_slv_outbus,
+				.mode = SPI_MODE_3,
+			};
 
-          spi_stm32_info_outbus.bus_num = 3; /* SPI4 */
-          spi_stm32_slv_outbus.cs_gpio = 
-            STM32_GPIO_PORTPIN2NUM(4, 4), // port E, pin 4
+		spi_stm32_info_outbus.bus_num = 3; /* SPI4 */
+		spi_stm32_slv_outbus.cs_gpio = 
+			STM32_GPIO_PORTPIN2NUM(4, 4), // port E, pin 4
 
-            /*
-             * Set up the Chip Select GPIO for the SPI outbus
-             */
-            gpio_direction_output(STM32_GPIO_PORTPIN2NUM(4, 4), 1);
-          
-          /*
-           * Register SPI slaves
-           */
-          spi_register_board_info(&spi_stm32_info_outbus,
-              sizeof(spi_stm32_info_outbus) /
-              sizeof(struct spi_board_info));
+			/*
+			 * Set up the Chip Select GPIO for the SPI outbus
+			 */
+			gpio_direction_output(STM32_GPIO_PORTPIN2NUM(4, 4), 1);
+
+		/*
+		 * Register SPI slaves
+		 */
+		spi_register_board_info(&spi_stm32_info_outbus,
+				sizeof(spi_stm32_info_outbus) /
+				sizeof(struct spi_board_info));
 #endif
 #endif
-        }
+	}
 }

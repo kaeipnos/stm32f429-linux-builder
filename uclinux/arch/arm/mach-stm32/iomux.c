@@ -320,13 +320,13 @@ void __init stm32_iomux_init(void)
 		 * Pin configuration for the UARTs.
 		 */
 #if defined(CONFIG_STM32_USART1)
-                gpio_dsc.port = 0;
-                gpio_dsc.pin  = 10;
-                stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_USART1);
+		gpio_dsc.port = 0;
+		gpio_dsc.pin  = 10;
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_USART1);
 
-                gpio_dsc.port = 0;
-                gpio_dsc.pin  = 9;
-                stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_USART1);
+		gpio_dsc.port = 0;
+		gpio_dsc.pin  = 9;
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_USART1);
 #endif
 #if defined(CONFIG_STM32_USART2)
 #error          IOMUX for STM32 USART2 undefined
@@ -341,9 +341,9 @@ void __init stm32_iomux_init(void)
 		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_USART3);
 #endif
 
-                /*
-                 * Pin configuration for I2C of the STM32F429ZI-DISCO board.
-                 */
+		/*
+		 * Pin configuration for I2C of the STM32F429ZI-DISCO board.
+		 */
 #if defined(CONFIG_STM32_I2C1)
 #error          IOMUX for STM32 I2C1 undefined
 #endif
@@ -351,18 +351,18 @@ void __init stm32_iomux_init(void)
 #error          IOMUX for STM32 I2C2 undefined
 #endif
 #if defined(CONFIG_STM32_I2C3)
-                gpio_dsc.port = 0;      /* SCL */
-                gpio_dsc.pin  = 8;      /* PA8 */
-                stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
+		gpio_dsc.port = 0;      /* SCL */
+		gpio_dsc.pin  = 8;      /* PA8 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
 
-                gpio_dsc.port = 2;      /* SDA */
-                gpio_dsc.pin  = 9;      /* PC9 */
-                stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
+		gpio_dsc.port = 2;      /* SDA */
+		gpio_dsc.pin  = 9;      /* PC9 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
 #endif
 
-                /*
-                 * Pin configuration for SPI of the STM32F429ZI-DISCO board.
-                 */
+		/*
+		 * Pin configuration for SPI of the STM32F429ZI-DISCO board.
+		 */
 #if defined(CONFIG_STM32_SPI1)
 #error          IOMUX for STM32 SPI1 undefined
 #endif
@@ -551,13 +551,13 @@ void __init stm32_iomux_init(void)
 #error		IOMUX for STM32 I2C2 undefined
 #endif
 #if defined(CONFIG_STM32_I2C3)
-                gpio_dsc.port = 0;      /* SCL */
-                gpio_dsc.pin  = 8;
-                stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
+		gpio_dsc.port = 0;      /* SCL */
+		gpio_dsc.pin  = 8;
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
 
-                gpio_dsc.port = 2;      /* SDA */
-                gpio_dsc.pin  = 9;
-                stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
+		gpio_dsc.port = 2;      /* SDA */
+		gpio_dsc.pin  = 9;
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_I2C3);
 #endif
 
 #if defined(CONFIG_MMC_ARMMMCI) || defined(CONFIG_MMC_ARMMMCI_MODULE)

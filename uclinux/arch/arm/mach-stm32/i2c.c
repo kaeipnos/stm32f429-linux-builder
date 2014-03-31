@@ -146,8 +146,8 @@ void __init stm32_i2c_init(void)
 
 #if defined(CONFIG_STM32_I2C1)
 	/*
- 	 * Pass the device parameters to the driver
- 	 */
+	 * Pass the device parameters to the driver
+	 */
 	i2c_stm32_data_dev1.ref_clk = stm32_clock_get(CLOCK_PCLK1);
 	platform_set_drvdata(&i2c_stm32_dev1, &i2c_stm32_data_dev1);
 
@@ -159,8 +159,8 @@ void __init stm32_i2c_init(void)
 
 #if defined(CONFIG_STM32_I2C2)
 	/*
- 	 * Pass the device parameters to the driver
- 	 */
+	 * Pass the device parameters to the driver
+	 */
 	i2c_stm32_data_dev2.ref_clk = stm32_clock_get(CLOCK_PCLK1);
 	platform_set_drvdata(&i2c_stm32_dev2, &i2c_stm32_data_dev2);
 
@@ -172,8 +172,8 @@ void __init stm32_i2c_init(void)
 
 #if defined(CONFIG_STM32_I2C3)
 	/*
- 	 * Pass the device parameters to the driver
- 	 */
+	 * Pass the device parameters to the driver
+	 */
 	i2c_stm32_data_dev3.ref_clk = stm32_clock_get(CLOCK_PCLK1);
 	platform_set_drvdata(&i2c_stm32_dev3, &i2c_stm32_data_dev3);
 
@@ -184,8 +184,8 @@ void __init stm32_i2c_init(void)
 #endif
 
 	/*
- 	 * Perform board-specific I2C device registration
- 	 */
+	 * Perform board-specific I2C device registration
+	 */
 	if (p == PLATFORM_STM32_STM_SOM) {
 #if defined(CONFIG_STM32_I2C1)
 
@@ -206,13 +206,13 @@ void __init stm32_i2c_init(void)
 #endif
 	} else if (p == PLATFORM_STM32_STM32429_DISCO) {
 #if defined(CONFIG_STM32_I2C3)
-          static struct i2c_board_info __initdata
-            stm32f4_bdinfo_i2c3[] = {
-            };
-          i2c_register_board_info(2, stm32f4_bdinfo_i2c3,
-              sizeof(stm32f4_bdinfo_i2c3) /
-              sizeof (struct i2c_board_info));
-        }
+		static struct i2c_board_info __initdata
+			stm32f4_bdinfo_i2c3[] = {
+			};
+		i2c_register_board_info(2, stm32f4_bdinfo_i2c3,
+				sizeof(stm32f4_bdinfo_i2c3) /
+				sizeof (struct i2c_board_info));
+	}
 #endif
 }
 

@@ -259,11 +259,11 @@ static void __init stm32_init(void)
 #endif
 
 #if defined(CONFIG_LEDS_GPIO)
-        /*
-         * Register leds class device
-         */
-        stm32_led_init();
+	/*
+	 * Register leds class device
+	 */
+	stm32_led_init();
 #endif
 
-        stm32_button_init();
+	stm32_button_init();
 }

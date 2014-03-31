@@ -168,10 +168,10 @@ static int i2c_a2f_hw_init(struct i2c_a2f *c)
 	int ret = 0;
 
 	/*
- 	 * Calculate the serial clock rate.
- 	 * We do it first since if the requested rate can't be supported,
- 	 * we want to bail out without enabling the hardware.
- 	 */
+	 * Calculate the serial clock rate.
+	 * We do it first since if the requested rate can't be supported,
+	 * we want to bail out without enabling the hardware.
+	 */
 	for (i = 0; div[i].d && c->ref_clk/div[i].d > c->i2c_clk; i++);
 	if (!div[i].d) {
 		dev_err(&c->dev->dev, "ref clock %d too high "
@@ -182,14 +182,14 @@ static int i2c_a2f_hw_init(struct i2c_a2f *c)
 	b = div[i].b;
 
 	/*
- 	 * Enable the controller
- 	 */
+	 * Enable the controller
+	 */
 	v = readl(&I2C_A2F(c)->ctrl);
 	writel(v | I2C_A2F_CTRL_ENS1, &I2C_A2F(c)->ctrl);
 
 	/*
- 	 * Set up the clock rate
- 	 */
+	 * Set up the clock rate
+	 */
 	v = readl(&I2C_A2F(c)->ctrl);
 	writel(v 
 		| (v & ~(1 << I2C_A2F_CTRL_CR0_SHFT))
@@ -219,8 +219,8 @@ Done:
 static void i2c_a2f_hw_release(struct i2c_a2f *c)
 {
 	/*
- 	 * Disable the controller
- 	 */
+	 * Disable the controller
+	 */
 	writel(readl(&I2C_A2F(c)->ctrl) & ~I2C_A2F_CTRL_ENS1, 
 		&I2C_A2F(c)->ctrl);
 
@@ -235,8 +235,8 @@ static void i2c_a2f_hw_release(struct i2c_a2f *c)
 static void i2c_a2f_hw_clear(struct i2c_a2f *c)
 {
 	/*
- 	 * Clear various conditions that affect the controler and the bus
- 	 */
+	 * Clear various conditions that affect the controler and the bus
+	 */
 	writel(readl(&I2C_A2F(c)->ctrl) & 
 		~(I2C_A2F_CTRL_SI | I2C_A2F_CTRL_STA | 
 		  I2C_A2F_CTRL_STO | I2C_A2F_CTRL_AA),
@@ -260,9 +260,9 @@ static irqreturn_t i2c_a2f_irq(int irq, void *d)
 	irqreturn_t ret = IRQ_HANDLED;
 
 	/*
- 	 * Check if there is a serial interrupt event 
- 	 * pending at the controller. Bail out if there is none
- 	 */
+	 * Check if there is a serial interrupt event 
+	 * pending at the controller. Bail out if there is none
+	 */
 	if (!(ctrl & I2C_A2F_CTRL_SI)) {
 		ret = IRQ_NONE;
 		goto Done;
@@ -282,8 +282,8 @@ static irqreturn_t i2c_a2f_irq(int irq, void *d)
 		writel(ctrl & ~I2C_A2F_CTRL_STA, &I2C_A2F(c)->ctrl);
 
 		/*
- 		 * Send out addr and direction
- 		 */
+		 * Send out addr and direction
+		 */
 		writel((c->msg->addr << 1) |
                         (c->msg->flags & I2C_M_RD ? 1 : 0), 
 			&I2C_A2F(c)->data);
@@ -307,17 +307,17 @@ static irqreturn_t i2c_a2f_irq(int irq, void *d)
 	case I2C_A2F_STATUS_DATA_W_ACK:
 
 		/*
- 		 * If there is more data to send, send it
- 		 */
+		 * If there is more data to send, send it
+		 */
 		if (c->msg_i < c->msg->len) {
 			writel(c->msg->buf[(c->msg_i)++],
 				&I2C_A2F(c)->data);
 		}
 
 		/*
- 		 * If this is last transfer in the message,
- 		 * send stop and report success
- 		 */
+		 * If this is last transfer in the message,
+		 * send stop and report success
+		 */
 		else if (--(c->msg_n) == 0) {
 			writel(ctrl | I2C_A2F_CTRL_STO, &I2C_A2F(c)->ctrl);
 			c->msg_status = 0;
@@ -359,23 +359,23 @@ static irqreturn_t i2c_a2f_irq(int irq, void *d)
 	case I2C_A2F_STATUS_DATA_R_ACK:
 
 		/*
- 		 * Retrieve the data but
+		 * Retrieve the data but
 		 * there is more data to receive in this transfer
- 		 */
+		 */
 		c->msg->buf[c->msg_i++] = readl(&I2C_A2F(c)->data);
 
 		/*
-	 	 * Will be receiving the last byte from the slave.
-	 	 * Return NACK to tell the slave to stop sending.
-	 	 */
+		 * Will be receiving the last byte from the slave.
+		 * Return NACK to tell the slave to stop sending.
+		 */
 		if (c->msg_i + 1 == c->msg->len) {
 			writel(ctrl & ~I2C_A2F_CTRL_AA, &I2C_A2F(c)->ctrl);
 		}
-	
+
 		/*
-	 	 * Will be receiving more data from the slave.
-	 	 * Return ACK to tell the slave to send more.
-	 	 */
+		 * Will be receiving more data from the slave.
+		 * Return ACK to tell the slave to send more.
+		 */
 		else {
 			writel(ctrl | I2C_A2F_CTRL_AA, &I2C_A2F(c)->ctrl);
 		}
@@ -385,15 +385,15 @@ static irqreturn_t i2c_a2f_irq(int irq, void *d)
 	case I2C_A2F_STATUS_DATA_R_NACK:
 
 		/*
- 		 * Retrieve the data but
+		 * Retrieve the data but
 		 * this segment is done with
- 		 */
+		 */
 		c->msg->buf[c->msg_i++] = readl(&I2C_A2F(c)->data);
 
 		/*
- 		 * If this is last transfer in the message,
- 		 * send stop and report success
- 		 */
+		 * If this is last transfer in the message,
+		 * send stop and report success
+		 */
 		if (--(c->msg_n) == 0) {
 			writel(ctrl | I2C_A2F_CTRL_STO, &I2C_A2F(c)->ctrl);
 			c->msg_status = 0;
@@ -401,10 +401,10 @@ static irqreturn_t i2c_a2f_irq(int irq, void *d)
 		}
 
 		/*
-	 	 * This is not the last transfer in the message.
-	 	 * Advance to the next segment
-	 	 * and initate a repeated start.
-	 	 */
+		 * This is not the last transfer in the message.
+		 * Advance to the next segment
+		 * and initate a repeated start.
+		 */
 		else {
 			c->msg++;
 			c->msg_i = 0;
@@ -426,14 +426,14 @@ static irqreturn_t i2c_a2f_irq(int irq, void *d)
 	}
 
 	/*
- 	 * Clear the serial interrupt condition
- 	 */
+	 * Clear the serial interrupt condition
+	 */
 	ctrl = readl(&I2C_A2F(c)->ctrl);
 	writel(ctrl & ~I2C_A2F_CTRL_SI, &I2C_A2F(c)->ctrl);
 
 	/*
- 	 * If the current transfer is done, disable interrupts
- 	 */
+	 * If the current transfer is done, disable interrupts
+	 */
 	if (disable_intr) {
 		disable_irq_nosync(c->irq);
 	}
@@ -476,8 +476,8 @@ static int i2c_a2f_transfer(struct i2c_adapter *a, struct i2c_msg *m, int n)
 	c->msg_status = -EBUSY;
 
 	/*
- 	 * Reset the bus to a known state
- 	 */
+	 * Reset the bus to a known state
+	 */
 	i2c_a2f_hw_clear(c);
 
 	/*
@@ -551,10 +551,10 @@ static int __devinit i2c_a2f_probe(struct platform_device *dev)
 	int ret = 0;
 
 	/*
- 	 * Get the bus # from the platform device: 
- 	 * [0,1]->hard-core I2C contorller of SmartFusion; 
- 	 * [2-9]->soft-IP I2C controller specific to a custom design.
- 	 */
+	 * Get the bus # from the platform device: 
+	 * [0,1]->hard-core I2C contorller of SmartFusion; 
+	 * [2-9]->soft-IP I2C controller specific to a custom design.
+	 */
 	bus = dev->id;
 	if (! (0 <= bus && bus <= 10)) {
 		dev_err(&dev->dev, "invalid bus number %d\n", bus);
@@ -595,8 +595,8 @@ static int __devinit i2c_a2f_probe(struct platform_device *dev)
 	c->bus = bus;
 
 	/*
- 	 * Request a memory region for the CSR block
- 	 */
+	 * Request a memory region for the CSR block
+	 */
 	if (!request_mem_region(regs->start, resource_size(regs),
 		regs->name)) {
 		dev_err(&dev->dev, "registers already in use\n");
@@ -607,8 +607,8 @@ static int __devinit i2c_a2f_probe(struct platform_device *dev)
 	c->regs_size = resource_size(regs);
 
 	/*
- 	 * Map in the CSR block
- 	 */
+	 * Map in the CSR block
+	 */
 	c->regs = ioremap(regs->start, resource_size(regs));
 	if (!c->regs) {
 		dev_err(&dev->dev, "unable to map registers\n");
@@ -617,8 +617,8 @@ static int __devinit i2c_a2f_probe(struct platform_device *dev)
 	}
 
 	/*
- 	 * Register interrupt handler
- 	 */
+	 * Register interrupt handler
+	 */
 	ret = request_irq(irq, i2c_a2f_irq, 0, dev_name(&dev->dev), c);
 	if (ret) {
 		dev_err(&dev->dev, "request for IRQ %d failed\n", irq);
@@ -628,20 +628,20 @@ static int __devinit i2c_a2f_probe(struct platform_device *dev)
 	c->irq = irq;
 
 	/*
- 	 * Retrieve the private parameters
- 	 */
+	 * Retrieve the private parameters
+	 */
 	d = (struct i2c_a2f_data *) platform_get_drvdata(dev);
 	c->ref_clk = d->ref_clk;
 	c->i2c_clk = d->i2c_clk;
 
 	/*
- 	 * Link the private data to dev
- 	 */
+	 * Link the private data to dev
+	 */
 	platform_set_drvdata(dev, c);
 
 	/*
- 	 * Initialize the I2C adapter data structure
- 	 */
+	 * Initialize the I2C adapter data structure
+	 */
 	c->adap.owner = THIS_MODULE;
 	c->adap.nr = bus;
 	snprintf(c->adap.name, sizeof(c->adap.name), "i2c_a2f.%u", bus);
@@ -650,13 +650,13 @@ static int __devinit i2c_a2f_probe(struct platform_device *dev)
 	c->adap.dev.parent = &dev->dev;
 
 	/* 
- 	 * Set up the wait queue
- 	 */
+	 * Set up the wait queue
+	 */
 	init_waitqueue_head(&c->wait);
 
 	/* 
- 	 * Initialize the controller hardware
- 	 */
+	 * Initialize the controller hardware
+	 */
 	ret = i2c_a2f_hw_init(c);
 	if (ret) {
 		goto Error_release_irq;
@@ -712,8 +712,8 @@ static int __devexit i2c_a2f_remove(struct platform_device *dev)
 	int ret = 0;
 
 	/*
- 	 * Shut the hardware down
- 	 */
+	 * Shut the hardware down
+	 */
 	i2c_a2f_hw_release(c);
 
 	/*
