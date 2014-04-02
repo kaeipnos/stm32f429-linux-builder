@@ -10,6 +10,7 @@
 #define STM32429_DISCO_BUTTON_INT 6
 #define STM32429_DISCO_BUTTON_PORT 0
 #define STM32429_DISCO_BUTTON_PIN 0
+#define STM32429_DISCO_BUTTON_EXTILINE 0
 
 static irqreturn_t stm32_bouton_isr(int irq, void *dev_id)
 {
@@ -25,16 +26,19 @@ static irqreturn_t stm32_bouton_isr(int irq, void *dev_id)
 void __init stm32_button_init(void)
 {
 	int rv;
-	/* Enable PA0 event line in the event controller (EXTI0) */
+	/*
+	 * Enable PA0 event line in the event controller (EXTI0)
+	 * EXTI[3:0] = 0000 -> PA selected for pin 0 : default value,
+	 * no need to play with SYSCFG_EXTICR0 here.
+	 */
 	printk("INFO: enabling interrupt on PA0 (%d/%d)\n",
-			STM32_GPIO_PORTPIN2NUM(STM32429_DISCO_BUTTON_PORT,STM32429_DISCO_BUTTON_PIN), 
+			STM32429_DISCO_BUTTON_EXTILINE,
 			STM32F2_EXTI_NUM_LINES);
 
-	stm32_exti_enable_int(STM32_GPIO_PORTPIN2NUM(STM32429_DISCO_BUTTON_PORT,
-				STM32429_DISCO_BUTTON_PIN),1);
+	stm32_exti_enable_int(STM32429_DISCO_BUTTON_EXTILINE,1);
 	rv = request_irq(STM32429_DISCO_BUTTON_INT,
 			stm32_bouton_isr,
-			IRQF_TRIGGER_FALLING,
+			IRQF_TRIGGER_RISING,
 			"STM32 TEXI0/PA0 Button",
 			(void *)stm32_bouton_isr);
 	if(rv) {
