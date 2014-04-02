@@ -83,6 +83,7 @@ void __init stm32_button_init(void)
 			STM32429_DISCO_BUTTON_PIN, 
 			STM32F2_EXTI_NUM_LINES);
 
+	/* EXTI[3:0]=0000 -> PA selected for pin 0 */
 	stm32_exti_enable_int(STM32429_DISCO_BUTTON_PIN,1);
 	rv = request_irq(STM32429_DISCO_BUTTON_INT,
 			stm32_bouton_isr,
@@ -113,7 +114,7 @@ void __init stm32_button_init(void)
 			stm32_b2_isr,
 			IRQF_TRIGGER_FALLING,
 			"STM32 TEXI3/PC3 Button",
-			(void *)stm32_bouton_isr);
+			(void *)stm32_b2_isr);
 	if(rv) {
 		printk("INFO: %s: request_irq(%d) failed (%d)\n",
 				__func__, STM32429_DISCO_B2_INT, rv);
