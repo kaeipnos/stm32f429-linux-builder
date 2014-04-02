@@ -17,8 +17,7 @@ static irqreturn_t stm32_bouton_isr(int irq, void *dev_id)
 	printk("INFO: irq on blue button !\n");
 
 	/* clear irq */
-	stm32_exti_clear_pending(STM32_GPIO_PORTPIN2NUM(
-				STM32429_DISCO_BUTTON_PORT,STM32429_DISCO_BUTTON_PIN));
+	stm32_exti_clear_pending(STM32429_DISCO_BUTTON_EXTILINE);
 
 	return IRQ_HANDLED;
 }
