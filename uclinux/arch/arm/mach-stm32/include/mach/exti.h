@@ -1,7 +1,8 @@
 /*
- * (C) Copyright 2012
+ * (C) Copyright 2012-2014
  * Emcraft Systems, <www.emcraft.com>
  * Alexander Potashev <aspotashev@emcraft.com>
+ * Denis Bodor <lefinnois@lefinnois.net>
  *
  * See file CREDITS for list of people who contributed to this
  * project.
@@ -34,12 +35,22 @@
 /* Total number of EXTI event lines */
 #define STM32F2_EXTI_NUM_LINES		23
 
+#define STM32_EXTI_RISING		1
+#define STM32_EXTI_FALLING		2
+
+#define STM32_F429_EXTI_NUM_PORT	10
+#define STM32_F429_EXTI_NUM_PIN		15
+
+#define STM32_SYSCFG_EXTI_MASK		15
+
 /*
  * API functions of the STM32 EXTI controller driver
  *
  * See arch/arm/mach-stm32/exti.c for details on each of these functions.
  */
-void stm32_exti_enable_int(unsigned int line, int enable);
-void stm32_exti_clear_pending(unsigned int line);
+int stm32_exti_set_gpio(unsigned int port, unsigned int pin);
+int stm32_exti_enable_int(unsigned int line, int edge);
+int stm32_exti_disable_int(unsigned int line);
+int stm32_exti_clear_pending(unsigned int line);
 
 #endif /* _MACH_STM32_EXTI_H_ */
