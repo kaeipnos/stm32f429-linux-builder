@@ -47,7 +47,7 @@ Continue? [Y/n]
  FF D4 
 ```
 * add little **blue button** to get an interrupt when pushed 
-* add external **SPI4 support** (SCK/NSS/MISO/MOSI on PE2/PE4/PE5/PE6) with **MMC** SPI (default in kernel config) or spi-dev (if MMC SPI disabled). Not perfect because card detection on PA5 use polling (not IRQ, i'm not very ahppy with this), but it works :
+* add external **SPI4 support** (SCK/NSS/MISO/MOSI on PE2/PE4/PE5/PE6) with **MMC** SPI (default in kernel config) or spi-dev (if MMC SPI disabled). Not perfect because card detection on PA5 use polling (not IRQ, i'm not very happy with this), but it works :
 
 ```
 spi_stm32 spi_stm32.4: SPI Controller 4 at 40015000,hz=90000000
@@ -71,6 +71,8 @@ gpg.conf      pubring.gpg   random_seed   trustdb.gpg
 lost+found    pubring.gpg~  secring.gpg
 ~ # umount /mnt/sdcard/
 ```
+
+* add more code to ``exti.c`` to manage STM32 EXTI and a push button support on PC3 (just to play with). ``stm32_exti_set_gpio(port,pin)`` can now be used to choose wich GPIO can trigger an interrupt, in addition to ``stm32_exti_enable_int(line, edge)`` and ``stm32_exti_disable_int(line)`` (replace EmCraft ``stm32_exti_enable_int(line,enable)``) to set EXTI registers/configuration. This will soon change MMC card detection from polling to IRQ managed. For more information on EXTI/NVIC read [RM0090](http://www.st.com/web/en/resource/technical/document/reference_manual/DM00031020.pdf) page 368.
 
 TODO:
 
