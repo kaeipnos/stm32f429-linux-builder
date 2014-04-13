@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.33
-# Wed Mar 26 10:33:42 2014
+# Sun Apr 13 18:55:03 2014
 #
 CONFIG_ARM=y
 CONFIG_SYS_SUPPORTS_APM_EMULATION=y
@@ -236,6 +236,12 @@ CONFIG_STM32_SPI5=y
 # CONFIG_STM32_I2C1 is not set
 # CONFIG_STM32_I2C2 is not set
 CONFIG_STM32_I2C3=y
+
+#
+# STM32F429IDISCO board
+#
+CONFIG_STM32_BLUEBUTTON=y
+# CONFIG_STM32_OTHERBUTTON is not set
 
 #
 # Processor Type

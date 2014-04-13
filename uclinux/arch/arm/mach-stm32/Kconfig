@@ -117,6 +117,21 @@ config STM32_RTC
 	bool "Enable STM32 RTC"
 	default n
 
+menu "STM32F429IDISCO board"
+	depends on ARCH_STM32
+
+config STM32_BLUEBUTTON
+	depends on ARCH_STM32
+	bool "Enable int on blue button (stm32f429idisco)"
+	default n
+
+config STM32_OTHERBUTTON
+	depends on ARCH_STM32
+	bool "Enable int on PC3 button (stm32f429idisco)"
+	default n
+
+endmenu
+
 endmenu
 
 endif
