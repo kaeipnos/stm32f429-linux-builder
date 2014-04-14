@@ -265,7 +265,10 @@ static void __init stm32_init(void)
 	stm32_led_init();
 #endif
 
-#if defined(STM32F429IDISCO_BLUEBUTTON) || defined(STM32F429IDISCO_OTHERBUTTON)
+#if defined(CONFIG_STM32F429IDISCO_BLUEBUTTON) || defined(CONFIG_STM32F429IDISCO_OTHERBUTTON)
+	/*
+	 * Register int on button
+	 */
 	stm32_button_init();
 #endif
 }

@@ -17,7 +17,7 @@
 #define STM32429_DISCO_B2_PIN		3
 #define STM32429_DISCO_B2_EXTILINE	3
 
-#if defined(STM32F429IDISCO_BLUEBUTTON)
+#if defined(CONFIG_STM32F429IDISCO_BLUEBUTTON)
 static irqreturn_t stm32_bouton_isr(int irq, void *dev_id)
 {
 	printk("INFO: irq on blue button !\n");
@@ -29,7 +29,7 @@ static irqreturn_t stm32_bouton_isr(int irq, void *dev_id)
 }
 #endif
 
-#if defined(STM32F429IDISCO_OTHERBUTTON)
+#if defined(CONFIG_STM32F429IDISCO_OTHERBUTTON)
 static irqreturn_t stm32_b2_isr(int irq, void *dev_id)
 {
 	printk("INFO: irq on B2 button !\n");
@@ -41,11 +41,11 @@ static irqreturn_t stm32_b2_isr(int irq, void *dev_id)
 }
 #endif
 
-#if defined(STM32F429IDISCO_BLUEBUTTON) || defined(STM32F429IDISCO_OTHERBUTTON)
+#if defined(CONFIG_STM32F429IDISCO_BLUEBUTTON) || defined(CONFIG_STM32F429IDISCO_OTHERBUTTON)
 void __init stm32_button_init(void)
 {
 	int rv;
-#if defined(STM32F429IDISCO_BLUEBUTTON)
+#if defined(CONFIG_STM32F429IDISCO_BLUEBUTTON)
 	/* Enable PA0 event line in the event controller (EXTI0) */
 	printk("INFO: enabling interrupt on PA0 (%d/%d)\n",
 			STM32429_DISCO_BUTTON_EXTILINE,
@@ -66,7 +66,7 @@ void __init stm32_button_init(void)
 	}
 #endif
 
-#if defined(STM32F429IDISCO_OTHERBUTTON)
+#if defined(CONFIG_STM32F429IDISCO_OTHERBUTTON)
 	/* Enable PC3 event line in the event controller (EXTI3) */
 	printk("INFO: enabling interrupt on PC3 (%d/%d)\n",
 			STM32429_DISCO_B2_EXTILINE,
