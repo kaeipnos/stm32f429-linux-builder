@@ -256,6 +256,7 @@
 #define CONFIG_BOOTDELAY		5
 #define CONFIG_HOSTNAME			stm32429-disco
 #define CONFIG_BOOTARGS			"stm32_platform=stm32429-disco mem=7M "\
+								"console=tty0 "\
 								"console=ttyS0,115200n8 consoleblank=0 "\
 								"root=/dev/mtdblock0 rdinit=/sbin/init "\
 								"video=vfb:enable,fbmem:0x90700000,fbsize:0x100000"
