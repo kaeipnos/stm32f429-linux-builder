@@ -15,6 +15,7 @@
 
 # mount ramdisk
 /bin/mount -t ext2 /dev/ram0 /var
+mkdir /var/run
 
 # disable virtual console blanking
 # /bin/echo -e '\033[9;0]\033[14;0]' > /dev/console

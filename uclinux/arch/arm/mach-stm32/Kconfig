@@ -125,11 +125,6 @@ config STM32F429IDISCO_BLUEBUTTON
 	bool "Enable int on blue button (stm32f429idisco)"
 	default n
 
-config STM32F429IDISCO_OTHERBUTTON
-	depends on ARCH_STM32
-	bool "Enable int on PC3 button (stm32f429idisco)"
-	default n
-
 endmenu
 
 endmenu

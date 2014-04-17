@@ -7,4 +7,4 @@ null::sysinit:/etc/start
 
 ttyS0::respawn:/bin/login -f root
 
-null::wait:/bin/cat /proc/cpuinfo > /dev/tty1
+null::wait:/bin/cat /proc/cpuinfo > /dev/tty0

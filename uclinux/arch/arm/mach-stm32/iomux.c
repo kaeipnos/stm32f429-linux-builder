@@ -402,8 +402,8 @@ void __init stm32_iomux_init(void)
 		gpio_dsc.pin  = 9;      /* PF9 */
 		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_SPI5);
 
-		gpio_dsc.port = 2;	/* NCS */
-		gpio_dsc.pin  = 1;      /* PC1 */
+		gpio_dsc.port = 5;	/* NCS */
+		gpio_dsc.pin  = 6;      /* PF6 */
 		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_OUT);
 #endif
 

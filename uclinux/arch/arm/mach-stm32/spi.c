@@ -67,6 +67,7 @@ static void stm32_mmc_spi_exit(struct device *dev, void *data) {
 */
 #endif
 
+
 /* 
  * Size of the SPI controller register area
  */
@@ -387,7 +388,42 @@ void __init stm32_spi_init(void)
 			sizeof(struct spi_board_info));
 #endif
 	} else if (p == PLATFORM_STM32_STM32429_DISCO) {
-#if defined(CONFIG_STM32_SPI5) && defined(CONFIG_SPI_SPIDEV)
+#if defined(CONFIG_STM32_SPI5) && (defined(CONFIG_SPI_SPIDEV) || defined(CONFIG_MMC_SPI))
+#if defined(CONFIG_MMC_SPI)
+		static struct mmc_spi_platform_data
+			stm32_mmc_spi_pdata = {
+				.caps = MMC_CAP_NEEDS_POLL,
+				.get_cd = stm32_mmc_spi_get_cd,
+				//              .init = stm32_mmc_spi_init,
+				//              .exit = stm32_mmc_spi_exit,
+				.detect_delay = 100, /* msecs */
+				.powerup_msecs  = 100,
+			};
+
+		static struct spi_stm32_slv
+			spi_stm32_slv_mmc = {
+				//              .enable_dma = 0,
+				//              .bits_per_word = 8,
+				.timeout = 3,
+			};
+
+		static struct spi_board_info spi_stm32_info_mmc = {
+			.modalias = "mmc_spi",
+			.max_speed_hz = 20000000,
+			.bus_num = 4, /* SPI5 */
+			.chip_select = 0, /* GPIO controlled SSEL */
+			.platform_data = &stm32_mmc_spi_pdata,
+			.controller_data = &spi_stm32_slv_mmc,
+			.mode = SPI_MODE_3,
+		};
+
+		spi_stm32_slv_mmc.cs_gpio =
+			STM32_GPIO_PORTPIN2NUM(5, 6), // port F, pin 6
+			gpio_direction_output(STM32_GPIO_PORTPIN2NUM(5, 6), 1);
+		spi_register_board_info(&spi_stm32_info_mmc,
+				sizeof(spi_stm32_info_mmc) /
+				sizeof(struct spi_board_info));
+#else
 		/*
 		 * spi slave
 		 */
@@ -420,40 +456,38 @@ void __init stm32_spi_init(void)
 				sizeof(spi_stm32_info_memsgyro) /
 				sizeof(struct spi_board_info));
 #endif
-#if defined(CONFIG_STM32_SPI4) && (defined(CONFIG_SPI_SPIDEV) || defined(CONFIG_MMC_SPI))
-#if defined(CONFIG_MMC_SPI)
-		static struct mmc_spi_platform_data
-			stm32_mmc_spi_pdata = {
-				.caps = MMC_CAP_NEEDS_POLL,
-				.get_cd = stm32_mmc_spi_get_cd,
-				//              .init = stm32_mmc_spi_init,
-				//              .exit = stm32_mmc_spi_exit,
-				.detect_delay = 100, /* msecs */
-				.powerup_msecs  = 100,
-			};
+#endif
 
-		static struct spi_stm32_slv
-			spi_stm32_slv_mmc = {
-				//              .enable_dma = 0,
-				//              .bits_per_word = 8,
-				.timeout = 3,
-			};
+#if defined(CONFIG_STM32_SPI4) && (defined(CONFIG_SPI_SPIDEV) || defined(CONFIG_ENC28J60))
+#if defined(CONFIG_ENC28J60)
+		/*
+		 * ethernet ENC28J60 on SPI4
+		 * INT on PC3
+		 * CS on PE4
+		 */
 
-		static struct spi_board_info spi_stm32_info_mmc = {
-			.modalias = "mmc_spi",
-			.max_speed_hz = 20000000,
-			.bus_num = 3, /* SPI4 */
-			.chip_select = 0,
-			.platform_data = &stm32_mmc_spi_pdata,
-			.controller_data = &spi_stm32_slv_mmc,
-			.mode = SPI_MODE_3,
+		/* set PC3 as EXTI in */
+		stm32_exti_set_gpio(2,3);
+		stm32_exti_enable_int(3, STM32_EXTI_FALLING);
+
+		static struct spi_stm32_slv spi_stm32_slv_enc28j60 = {
+			.timeout = 3,
+		};
+		static struct spi_board_info spi_stm32_info_28j60 = {
+			.modalias = "enc28j60",
+			.max_speed_hz = 12000000,
+			.irq = 9,            /* PC3 exti -> irq9 */
+			.bus_num = 3,        /* SPI4 */
+			.chip_select = 0,    /* GPIO controlled SSEL */
+			.controller_data = &spi_stm32_slv_enc28j60,
+			.mode = SPI_MODE_0,
 		};
 
-		spi_stm32_slv_mmc.cs_gpio =
+		spi_stm32_slv_enc28j60.cs_gpio =
 			STM32_GPIO_PORTPIN2NUM(4, 4), // port E, pin 4
 			gpio_direction_output(STM32_GPIO_PORTPIN2NUM(4, 4), 1);
-		spi_register_board_info(&spi_stm32_info_mmc,
-				sizeof(spi_stm32_info_mmc) /
+		spi_register_board_info(&spi_stm32_info_28j60,
+				sizeof(spi_stm32_info_28j60) /
 				sizeof(struct spi_board_info));
 #else
 		/*

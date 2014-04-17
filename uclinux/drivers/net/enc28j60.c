@@ -30,6 +30,8 @@
 #include <linux/delay.h>
 #include <linux/spi/spi.h>
 
+#include <mach/exti.h>
+
 #include "enc28j60_hw.h"
 
 #define DRV_NAME	"enc28j60"
@@ -1325,6 +1327,7 @@ static irqreturn_t enc28j60_irq(int irq, void *dev_id)
 	 */
 	schedule_work(&priv->irq_work);
 
+	stm32_exti_clear_pending(3);
 	return IRQ_HANDLED;
 }
 
