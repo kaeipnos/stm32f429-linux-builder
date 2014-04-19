@@ -385,7 +385,7 @@ void __init stm32_iomux_init(void)
 		gpio_dsc.pin  = 6;      /* PE6 */
 		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_SPI4);
 
-		gpio_dsc.port = 4;	/* NCS */
+		gpio_dsc.port = 4;	/* NCS MMC */
 		gpio_dsc.pin  = 4;      /* PE4 */
 		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_OUT);
 #endif
@@ -402,8 +402,12 @@ void __init stm32_iomux_init(void)
 		gpio_dsc.pin  = 9;      /* PF9 */
 		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_SPI5);
 
-		gpio_dsc.port = 5;	/* NCS */
+		gpio_dsc.port = 5;	/* NCS ENC28J60 */ 
 		gpio_dsc.pin  = 6;      /* PF6 */
+		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_OUT);
+
+		gpio_dsc.port = 2;	/* NCS MEMS L3GD20 */ 
+		gpio_dsc.pin  = 1;      /* PC1 */
 		stm32f2_gpio_config(&gpio_dsc, STM32F2_GPIO_ROLE_OUT);
 #endif
 
