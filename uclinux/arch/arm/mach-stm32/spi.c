@@ -401,8 +401,7 @@ void __init stm32_spi_init(void)
 		};
 
 		spi_stm32_slv_mmc.cs_gpio =
-			STM32_GPIO_PORTPIN2NUM(4, 4), // port E, pin 4
-			gpio_direction_output(STM32_GPIO_PORTPIN2NUM(4, 4), 1);
+			STM32_GPIO_PORTPIN2NUM(4, 4); // port E, pin 4
 		spi_register_board_info(&spi_stm32_info_mmc,
 				sizeof(spi_stm32_info_mmc) /
 				sizeof(struct spi_board_info));
@@ -425,8 +424,7 @@ void __init stm32_spi_init(void)
 
 		spi_stm32_info_outbus.bus_num = 3; /* SPI4 */
 		spi_stm32_slv_outbus.cs_gpio = 
-			STM32_GPIO_PORTPIN2NUM(4, 4), // port E, pin 4
-			gpio_direction_output(STM32_GPIO_PORTPIN2NUM(4, 4), 1);
+			STM32_GPIO_PORTPIN2NUM(4, 4); // port E, pin 4
 		spi_register_board_info(&spi_stm32_info_outbus,
 				sizeof(spi_stm32_info_outbus) /
 				sizeof(struct spi_board_info));
@@ -456,9 +454,8 @@ void __init stm32_spi_init(void)
 			.mode = SPI_MODE_0,
 		};
 
-		spi_stm32_slv_enc28j60.cs_gpio =
-			STM32_GPIO_PORTPIN2NUM(5, 6), // port F, pin 6
-			gpio_direction_output(STM32_GPIO_PORTPIN2NUM(5, 6), 1);
+		spi_stm32_slv_enc28j60.cs_gpio = 
+			STM32_GPIO_PORTPIN2NUM(5, 6); // port F, pin 6
 		spi_register_board_info(&spi_stm32_info_28j60,
 				sizeof(spi_stm32_info_28j60) /
 				sizeof(struct spi_board_info));
@@ -482,16 +479,8 @@ void __init stm32_spi_init(void)
 
 		spi_stm32_info_memsgyro.bus_num = 4; /* SPI5 */
 		spi_stm32_slv_memsgyro.cs_gpio = 
-			STM32_GPIO_PORTPIN2NUM(2, 1), // port C, pin 1
+			STM32_GPIO_PORTPIN2NUM(2, 1); // port C, pin 1
 
-			/*
-			 * Set up the Chip Select GPIO for the SPI MEMS Gyro
-			 */
-			gpio_direction_output(STM32_GPIO_PORTPIN2NUM(2, 1), 1);
-
-		/*
-		 * Register SPI slaves
-		 */
 		spi_register_board_info(&spi_stm32_info_memsgyro,
 				sizeof(spi_stm32_info_memsgyro) /
 				sizeof(struct spi_board_info));
