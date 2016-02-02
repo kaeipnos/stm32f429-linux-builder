@@ -5,9 +5,10 @@
 # expand the ramdisk
 /usr/bin/extract /ramfs.img /dev/ram0
 
-# mount ramdisk, proc, sysfs
+# mount ramdisk, proc, sysfs, pts
 /bin/mount -t proc proc /proc
 /bin/mount -t sysfs sysfs /sys
+/bin/mount -t devpts devpts /dev/pts
 
 # load ext2
 /sbin/insmod /lib/modules/mbcache.ko
@@ -15,6 +16,14 @@
 
 # mount ramdisk
 /bin/mount -t ext2 /dev/ram0 /var
+/bin/mkdir /var/run
+
+# config eth0/28j60 MAC
+/sbin/ifconfig eth0 hw ether DE:AD:BE:EF:FE:ED
+
+/sbin/ifup -a
+
+/usr/sbin/inetd
 
 # remove kernel message
 dmesg -n 1

@@ -30,6 +30,8 @@
 #include <linux/delay.h>
 #include <linux/spi/spi.h>
 
+#include <mach/exti.h>
+
 #include "enc28j60_hw.h"
 
 #define DRV_NAME	"enc28j60"
@@ -1325,6 +1327,11 @@ static irqreturn_t enc28j60_irq(int irq, void *dev_id)
 	 */
 	schedule_work(&priv->irq_work);
 
+	/* 
+	 * DIRTY HACK !
+	 * clear int flag on exti3 -> PC3 external irq
+	 */
+	stm32_exti_clear_pending(3);
 	return IRQ_HANDLED;
 }
 
@@ -1410,17 +1417,17 @@ static void enc28j60_set_multicast_list(struct net_device *dev)
 	int oldfilter = priv->rxfilter;
 
 	if (dev->flags & IFF_PROMISC) {
-		if (netif_msg_link(priv))
-			dev_info(&dev->dev, "promiscuous mode\n");
+//		if (netif_msg_link(priv))
+//			dev_info(&dev->dev, "promiscuous mode\n");
 		priv->rxfilter = RXFILTER_PROMISC;
 	} else if ((dev->flags & IFF_ALLMULTI) || dev->mc_count) {
-		if (netif_msg_link(priv))
-			dev_info(&dev->dev, "%smulticast mode\n",
-				(dev->flags & IFF_ALLMULTI) ? "all-" : "");
+//		if (netif_msg_link(priv))
+//			dev_info(&dev->dev, "%smulticast mode\n",
+//				(dev->flags & IFF_ALLMULTI) ? "all-" : "");
 		priv->rxfilter = RXFILTER_MULTI;
 	} else {
-		if (netif_msg_link(priv))
-			dev_info(&dev->dev, "normal mode\n");
+//		if (netif_msg_link(priv))
+//			dev_info(&dev->dev, "normal mode\n");
 		priv->rxfilter = RXFILTER_NORMAL;
 	}
 
