@@ -13,3 +13,5 @@ stamp-uboot
 *~
 Session.vim
 
+# generated uclinux headers
+uclinux-headers/
