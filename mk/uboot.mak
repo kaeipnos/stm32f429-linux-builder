@@ -1,6 +1,6 @@
 build-uboot:
 	$(shell mkdir -p ${target_out_uboot})
-	env LANG=C make -C $(uboot_dir) \
-		ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) \
-		O=$(target_out_uboot) \
-		stm32429-disco
+	export CROSS_COMPILE=arm-uclinuxeabi-
+	make -C $(uboot_dir) stm32429-disco_config
+	make -C $(uboot_dir)
+	cp $(uboot_dir)/u-boot.bin $(target_out)/uboot/u-boot.bin

@@ -16,8 +16,8 @@ localprgs:
 $(rootfs_target): $(rootfs_dir) $(target_out_busybox)/.config
 	cp -f $(localprgs_dir)/bin/* $(target_out_romfs)/usr/bin
 	cp -af $(rootfs_dir)/* $(target_out_romfs)
-	cp -f $(target_out_kernel)/fs/ext2/ext2.ko $(target_out_romfs)/lib/modules
-	cp -f $(target_out_kernel)/fs/mbcache.ko $(target_out_romfs)/lib/modules
+	cp -f uclinux/fs/ext2/ext2.ko $(target_out_romfs)/lib/modules
+	cp -f uclinux/fs/mbcache.ko $(target_out_romfs)/lib/modules
 	cd $(target_out) && genromfs -v \
 		-V "ROM Disk" \
 		-f romfs.bin \

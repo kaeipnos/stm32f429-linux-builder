@@ -5,7 +5,7 @@ include configs/sources
 include mk/defs.mak
 
 uboot_target :=  $(target_out)/uboot/u-boot.bin
-kernel_target := $(target_out)/kernel/arch/arm/boot/xipuImage.bin
+kernel_target := uclinux/arch/arm/boot/xipuImage.bin
 rootfs_target := $(target_out)/romfs.bin
 
 # toolchain configurations
